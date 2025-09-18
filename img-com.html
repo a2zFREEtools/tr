@@ -224,11 +224,6 @@
             background: #2575fc;
         }
 
-        .compress-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
         .download-btn {
             background: #25d366;
             color: white;
@@ -404,19 +399,19 @@
                 <div class="preview-container">
                     <div class="image-preview">
                         <h4>Original Image</h4>
-                        <img id="original-preview" class="preview-img" src="https://via.placeholder.com/400x300?text=Upload+Image" alt="Original image preview">
-                        <div class="file-info" id="original-info">Size: 0 KB | Dimensions: 0x0</div>
+                        <img id="original-preview" class="preview-img" src="https://via.placeholder.com/400x300?text=Original+Image" alt="Original image preview">
+                        <div class="file-info" id="original-info">Size: 0 KB</div>
                     </div>
                     
                     <div class="image-preview">
                         <h4>Compressed Image</h4>
                         <img id="compressed-preview" class="preview-img" src="https://via.placeholder.com/400x300?text=Compressed+Image" alt="Compressed image preview">
-                        <div class="file-info" id="compressed-info">Size: 0 KB | Quality: 0%</div>
+                        <div class="file-info" id="compressed-info">Size: 0 KB</div>
                     </div>
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn compress-btn" id="compress-btn" disabled>Compress Image</button>
+                    <button class="btn compress-btn" id="compress-btn">Compress Image</button>
                     <button class="btn download-btn" id="download-btn">Download</button>
                 </div>
             </div>
@@ -492,9 +487,6 @@
             let originalImage = null;
             let compressedImageBlob = null;
             
-            // Initialize with compress button disabled
-            compressBtn.disabled = true;
-            
             // Update quality value display
             compressionSlider.addEventListener('input', function() {
                 qualityValue.textContent = `${this.value}%`;
@@ -554,7 +546,7 @@
                 
                 const file = files[0];
                 if (!file.type.match('image.*')) {
-                    alert('Please select an image file (JPEG, PNG, etc.).');
+                    alert('Please select an image file.');
                     return;
                 }
                 
@@ -592,17 +584,8 @@
                 // Draw image on canvas
                 ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
                 
-                // Show loading state
-                compressedPreview.src = "https://via.placeholder.com/400x300?text=Compressing...";
-                compressedInfo.textContent = "Compressing...";
-                
                 // Convert to blob with specified quality
                 canvas.toBlob(function(blob) {
-                    if (!blob) {
-                        alert("Compression failed. Please try again with a different image.");
-                        return;
-                    }
-                    
                     // Create URL for the compressed image
                     const url = URL.createObjectURL(blob);
                     
@@ -628,19 +611,16 @@
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(compressedImageBlob);
                 link.download = 'compressed-image.jpg';
-                document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link);
             });
         });
     </script>
     
     <!-- Google AdSense Code (replace with your own Ad Unit IDs) -->
-    <!--
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
     <script>
+        // AdSense initialization
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    -->
 </body>
 </html>
